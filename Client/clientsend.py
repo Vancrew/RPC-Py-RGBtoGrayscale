@@ -1,4 +1,4 @@
-import xmlrpclib, pickle, cv2, Image, os, glob
+import xmlrpclib, pickle, cv2, Image, os, glob, timeit
 
 proxy = xmlrpclib.ServerProxy("http://localhost:8000/")
 
@@ -9,6 +9,7 @@ with open("b.jpg", "wb") as handle:
 """
 
 os.chdir("image")
+start = timeit.default_timer()
 for file in glob.glob("*.*"):
     try:
         with open("../gray/" + file, "wb") as han:
@@ -16,7 +17,11 @@ for file in glob.glob("*.*"):
                 han.write(proxy.terima(xmlrpclib.Binary(hi.read())).data)
     except:
         print "--"
+stop = timeit.default_timer()
 
+time = stop - start
+
+print "Waktu total = " + str(time)
 
 """
 try:
